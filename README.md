@@ -8,6 +8,7 @@ Turnkey html/js that displays data privacy information from vendors using a simp
 - Font awesome (import included)
 - Correctly formatted csv file with the following fields (see example file 'DataPrivacy.csv'):
 Vendor Name, Product Name, Policy Link, Login Method, Library can see PII, Data kept by vendor, Last Updated
+
 Note: Do not change column names in csv file without also editing the field name in the html file.
 
 ### Usage
