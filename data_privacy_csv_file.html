@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Data Privacy</title>
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+
+  </head>
+
+  <body>
+
+    <div class="row">
+      <div class="container-fluid m-sm-1 m-lg-5" >
+
+        <h3>Data Privacy</h3>
+
+        <p>
+          SCPL uses third-party vendors to provide digital collections, streaming media content and more. Some of these vendors may collect and share the information you provide to them in order to use their services.  You can choose not to use these third-party vendors.
+        </p>
+
+        <p>
+          The types of information that could be collected  by the vendors includes:<br>
+          <ul>
+            <li>When you register for the site, provide feedback and suggestions, request information, or create shared content.</li>
+            <li>Internet Address (IP Address), search history, location-based data, and device information.</li>
+            <li>Non-personally identifiable information, such as your ad views, analytics, browser information, cookie data, date/time of your request, demographic data, hardware/software type, interaction data, serving domains, page views, and the web page you visited immediately prior to visiting the site.</li>
+            <li>Other data as described in the vendor’s privacy policy and terms of use.</li>
+          </ul>
+        </p>
+
+        <p>
+          This SCPL Confidentiality of Library Records & Patron Data Privacy Policy does not apply to any of the third party vendors we use. We recommend you review the privacy statements of the vendors below to decide if you agree to their terms.
+        </p>
+
+        <p>
+          The Santa Cruz Public Library System assesses each vendor we use for multiple data privacy and protection best practices.  Each vendor is required to complete a Vendor Security Assessment Questionnaire, and respond to 78 questions in 7 areas:<br>
+          <ul>
+            <li>Service Overview</li>
+            <li>Data Protection & Access Controls</li>
+            <li>Policies & Standards</li>
+            <li>Application Security</li>
+            <li>Compliance</li>
+            <li>Security Measures</li>
+            <li>Which Data Are Collected</li>
+        </ul>
+      </p>
+
+      <div id="DataPrivacyDiv"></div>
+
+      </div>
+    </div>
+
+<script>
+
+html = "<table class='table table-hover'>";
+html = html + "<tr class='bg-dark'>";
+html = html + "<th><h4 class='text-white'>Product</h4></th>";
+html = html + "<th><h4 class='text-white'>Vendor</h4></th>";
+html = html + "</tr>";
+
+$.get('/files/data_privacy/DataPrivacy.csv', function(data) {
+   var lines = data.split(/(?:\r\n|\n)+/).filter(function(el) {return el.length != 0});
+   var headers = lines.splice(0, 1)[0].split(",");
+   // rexeg that handles fields with or without quotes
+   var valuesRegExp = /(?:\"([^\"]*(?:\"\"[^\"]*)*)\")|([^\",]+)/g;
+
+   // create a dict from each line
+   for (var i = 0; i < lines.length; i++) {
+       var element = {};
+       var j = 0;
+       while (matches = valuesRegExp.exec(lines[i])) {
+           var value = matches[1] || matches[2];
+           value = value.replace(/\"\"/g, "\"");
+           element[headers[j]] = value;
+           j++;
+           };
+
+      var productName = element["Product Name"];
+      var vendorName = element["Vendor Name"];
+      var policyLink = element["Policy Link"];
+      var loginMethod  = element["Login Method"];
+      var personallyIdentifiableInfo = element["Library can see PII"];
+      var dataKept = element["Data kept by vendor"];
+      var lastUpdated = element["Last Updated"];
+      //
+      html = html + "<tr data-toggle='modal' data-target='#DataPrivacyModal" + [i] + "' style='cursor:pointer;'>";
+      html = html + "<th><i class='fas fa-eye text-success mr-2'></i></i>" + productName + "</th>";
+      html = html + "<td>" + vendorName + "</td>";
+      html = html + "</tr>";
+      // MODAL
+      html = html + "<div class='modal fade' id='DataPrivacyModal" + [i] + "' tabindex='-1' role='dialog' aria-labelledby='DataPrivacyModalLabel" + [i] + "' aria-hidden='true'>"
+      html = html + "<div class='modal-dialog modal-lg' role='document'>"
+      html = html + "<div class='modal-content'>"
+      html = html + "<div class='modal-header bg-dark text-white'>"
+      html = html + "<h5 class='modal-title mx-auto' id='DataPrivacyModal" + [i] + "Label'>" + productName + "</h5>"
+      html = html + "</div>"
+      html = html + "<div class='modal-body'>";
+      html = html + "<center>";
+      html = html + "<b>Vendor name</b><br>";
+      html = html +  vendorName + "<br><br>"
+      html = html + "<b>Privacy policy</b><br>"
+      html = html + "<a href='" + policyLink + "' class='no-underline'>" + policyLink + "</a><br><br>"
+      html = html + "<b>Login method</b><br>"
+      html = html + loginMethod + "<br><br>"
+      html = html + "<b>Can the library see patrons' personally identifiable information?</b><br>"
+      html = html + personallyIdentifiableInfo + "<br><br>"
+      html = html + "<b>Data kept by vendor</b><br>"
+      html = html + dataKept
+      html = html + "</center>";
+      html = html + "</div>"
+      html = html + "<div class='modal-footer mx-auto'>"
+      html = html + "<center>"
+      html = html + "<small class='text-muted'>Last updated: " + lastUpdated + "</small><br><br>"
+      html = html + "<button type='button' class='btn btn-sm btn-success' data-dismiss='modal'>Close</button>"
+      html = html + "</center>"
+      html = html + "</div>";
+      html = html + "</div>";
+      html = html + "</div>";
+      html = html + "</div>";
+   };
+   html = html + "</table>";
+   document.getElementById("DataPrivacyDiv").innerHTML = html;
+}, 'text');
+
+
+
+</script>
+
+</body>
+</html>
