@@ -1,6 +1,6 @@
 # Data Privacy Information from CSV file
 
-Turnkey html/js that displays data privacy information from vendors using a simple csv file.
+Turnkey html/js that displays data privacy information from vendors using a simple csv file. Display is a simple list with modals for each vendor similar to this page: https://www.santacruzpl.org/data_privacy/
 
 ### Requirements
 - Jquery (import included)
