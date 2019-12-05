@@ -12,11 +12,11 @@ Vendor Name, Product Name, Policy Link, Login Method, Library can see PII, Data 
 Note: Do not change column names in csv file without also editing the field name in the html file.
 
 ### Usage
-You will need your csv file to be reachable via a url on your server eg: https://www.mysite.com/files/MyDataPrivacyTable.csv
+You will need your csv file to be reachable via a url on your server eg: ```https://www.mysite.com/files/MyDataPrivacyTable.csv```
 
 Edit the following line in data_privacy_csv_file.html to point to your csv file:
 ```
 $.get('/files/data_privacy/DataPrivacy.csv', function(data) {
 ```
 Point your browser to the html file, eg:
-https://www.mysite.com/files/data_privacy_csv_file.html
+```https://www.mysite.com/files/data_privacy_csv_file.html```
